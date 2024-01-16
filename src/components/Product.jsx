@@ -21,7 +21,7 @@ export const Product = ({ data, addToCart, cartItemCount }) => {
   const handleAddToCart = () => {
     if (quantity > 0) {
     addToCart(id, quantity);
-    setFeedbackMessage('Added to cart!'); // Set feedback message
+    setFeedbackMessage('Added to cart!');
     setQuantity(0);
     setTimeout(() => setFeedbackMessage(''), 2000);
     }
