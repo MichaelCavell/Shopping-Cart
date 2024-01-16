@@ -4,7 +4,6 @@ import { Outlet } from 'react-router-dom';
 import { fetchProducts } from './fakeStore';
 import "./App.css";
 
-
 const App = () => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
@@ -19,12 +18,10 @@ const App = () => {
     setCart(prevCart => {
       const existingProductIndex = prevCart.findIndex(item => item.id === productId);
       if (existingProductIndex >= 0) {
-        // Update quantity for existing product
         const updatedCart = [...prevCart];
         updatedCart[existingProductIndex].quantity += addedQuantity;
         return updatedCart;
       } else {
-        // Add new product to cart
         const productToAdd = products.find(product => product.id === productId);
         return [...prevCart, { ...productToAdd, quantity: addedQuantity }];
       }
