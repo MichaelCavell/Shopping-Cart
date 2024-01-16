@@ -6,13 +6,26 @@ import "./App.css";
 
 const App = () => {
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem('cart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
 
   useEffect(() => {
     fetchProducts()
       .then(data => setProducts(data))
       .catch(error => console.error('Error fetching products:', error));
-  }, []);
+
+    const saveCartToLocalStorage = () => {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    };
+
+    window.addEventListener('beforeunload', saveCartToLocalStorage);
+
+    return () => {
+      window.removeEventListener('beforeunload', saveCartToLocalStorage);
+    };
+  }, [cart]);
 
   const addToCart = (productId, addedQuantity) => {
     setCart(prevCart => {
